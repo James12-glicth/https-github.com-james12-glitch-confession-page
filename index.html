@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Confession</title>
+
+<style>
+  body{
+    margin:0;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background: linear-gradient(to bottom right, #ffdde8, #ffd2e6);
+    overflow:hidden;
+    font-family: "Poppins", sans-serif;
+  }
+
+  .card{
+    background: rgba(255,230,242,0.95);
+    padding:25px;
+    width:85%;
+    max-width:380px;
+    border-radius:20px;
+    text-align:center;
+    box-shadow:0 4px 20px rgba(0,0,0,0.1);
+  }
+
+  input{
+    width:90%;
+    padding:10px;
+    border-radius:10px;
+    border:1px solid #ff9ac7;
+    margin-bottom:10px;
+    outline:none;
+    font-size:16px;
+  }
+
+  button{
+    padding:10px 20px;
+    border:none;
+    border-radius:10px;
+    background:#ff7bac;
+    color:white;
+    font-size:16px;
+  }
+
+  .message{
+    font-size:17px;
+    line-height:1.6;
+    white-space:pre-wrap;
+    overflow:hidden;
+    border-right:2px solid #ff7bac;
+    width:0;
+    opacity:0;
+  }
+
+  @keyframes typing{
+    from{ width:0 }
+    to{ width:100% }
+  }
+
+  /* Floating hearts */
+  .heart{
+    position:absolute;
+    width:20px;
+    height:20px;
+    background:pink;
+    transform:rotate(45deg);
+    animation: float 6s linear infinite;
+    opacity:0.8;
+  }
+  .heart:before,
+  .heart:after{
+    content:"";
+    position:absolute;
+    width:20px;
+    height:20px;
+    background:pink;
+    border-radius:50%;
+  }
+  .heart:before{ top:-10px; left:0; }
+  .heart:after{ left:10px; top:0; }
+
+  @keyframes float{
+    0%{ transform:translateY(0) rotate(45deg); opacity:0.8; }
+    100%{ transform:translateY(-120vh) rotate(45deg); opacity:0; }
+  }
+</style>
+</head>
+
+<body>
+
+<script>
+  function createHeart(){
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.animationDuration = (5 + Math.random()*3) + "s";
+    heart.style.opacity = Math.random();
+    document.body.appendChild(heart);
+    setTimeout(()=>heart.remove(),8000);
+  }
+  setInterval(createHeart, 450);
+
+  function startMessage(){
+    const name = document.getElementById("name").value.trim();
+    if(name === "") return alert("Please enter your name!");
+
+    const msg = document.getElementById("msg");
+    const fullText = 
+`Hi ${name}, I made this short message to confess my feelings for you.
+
+I fell for you because of your smile, your eyes, and your personality —
+not just how you look.
+
+You have this way of making my heart feel something real.
+Since Grade 7, crush na po talaga kita.
+
+And I know may idea ka na po… pero ngayon lang po ako nagkaroon
+ng enough courage para mag-confess sa’yo.
+
+I admire everything about you — your humor, your kindness,
+your randomness, your laugh, your smile, and the way your eyes light up
+whenever you're happy or excited.
+
+I'm so happy na finally nasabi ko na sa’yo ’to, kasi matagal ko na talagang
+tinatago ang feelings ko para sa’yo. You deserve to know how
+special you are to me.
+
+Sorry for the grammatical errors. ❤️`;
+
+    msg.textContent = fullText;
+    msg.style.opacity = "1";
+    msg.style.animation = "typing 20s steps(220) forwards";
+
+    document.getElementById("inputBox").style.display = "none";
+  }
+</script>
+
+<div class="card">
+
+  <div id="inputBox">
+    <h3>Enter your name</h3>
+    <input id="name" type="text" placeholder="Your name...">
+    <br>
+    <button onclick="startMessage()">Start</button>
+  </div>
+
+  <div id="msg" class="message"></div>
+
+</div>
+
+</body>
+</html>
