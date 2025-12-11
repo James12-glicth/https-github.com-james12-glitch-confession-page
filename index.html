@@ -58,7 +58,7 @@
         background: #ff3e8a;
     }
 
-    /* Floating Hearts */
+    /* Floating Hearts Background */
     .heart {
         position: fixed;
         width: 18px;
@@ -67,6 +67,7 @@
         transform: rotate(45deg);
         animation: floatUp 6s linear infinite;
         opacity: 0.8;
+        pointer-events: none;
     }
 
     .heart:before,
@@ -93,11 +94,17 @@
         0% { transform: translateY(0) rotate(45deg); opacity: 0.9; }
         100% { transform: translateY(-120vh) rotate(45deg); opacity: 0; }
     }
+
+    /* Heart pop during typing */
+    @keyframes popFloat {
+        0% { transform: scale(0.5) translateY(0); opacity: 1; }
+        100% { transform: scale(1.2) translateY(-60px); opacity: 0; }
+    }
 </style>
 </head>
 <body>
 
-<!-- Floating Hearts Container -->
+<!-- Floating Hearts -->
 <div id="hearts"></div>
 
 <div class="card">
@@ -142,15 +149,38 @@ Sorry for the grammatical error's. ❤️`;
         function type() {
             if (i < text.length) {
                 msg.textContent += text.charAt(i);
+
+                popHeart(); // ❤️ Heart each letter
+
                 i++;
-                setTimeout(type, 40);
+                setTimeout(type, 70); // slower typing
             }
         }
 
         type();
     }
 
-    // Floating heart generator
+    // Heart during typing
+    function popHeart() {
+        const heart = document.createElement("div");
+        heart.classList.add("heart");
+
+        const msg = document.getElementById("message");
+        const rect = msg.getBoundingClientRect();
+
+        heart.style.left = (rect.left + rect.width / 2) + "px";
+        heart.style.top = (rect.top + rect.height / 2) + "px";
+
+        heart.style.width = "14px";
+        heart.style.height = "14px";
+        heart.style.background = "pink";
+        heart.style.animation = "popFloat 1.2s ease forwards";
+
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 1500);
+    }
+
+    // Background floating hearts
     function createHeart() {
         const heart = document.createElement("div");
         heart.classList.add("heart");
